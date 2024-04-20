@@ -1,5 +1,6 @@
 # Controller.py
 
+from src.Activity import Activity
 from src.Logger import Logger
 from sense_hat import SenseHat
 
@@ -7,20 +8,18 @@ class Controller:
     def __init__(self):
         self.sense = SenseHat()
         self.logger = Logger(self.sense)
-        self.recording = False
+        self.activity = Activity(self.sense)
 
     def run(self):
         try:
             while True:
                 for event in self.sense.stick.get_events():
                     if event.action == "pressed":
-                        if event.direction == "middle" and not self.recording:
+                        if event.direction == "middle":
                             self.logger.print_start()
-                            self.recording = not self.recording
-                        elif event.direction == "middle" and self.recording:
+                            status = self.activity.record()
+                            print(status)
                             self.logger.print_end()
-                            print(event)
-                            self.recording = not self.recording
 
         except KeyboardInterrupt:
             print("Exiting...")
