@@ -1,8 +1,6 @@
-from sense_hat import SenseHat
 from scipy.signal import find_peaks
 from sqlite_db_client import SQLiteDBClient
 from pathlib import Path
-
 import numpy as np
 import time
 import csv

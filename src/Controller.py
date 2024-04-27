@@ -1,7 +1,7 @@
 # Controller.py
 
-from src.Activity import Activity
-from src.Logger import Logger
+from src.activity import Activity
+from src.logger import Logger
 from sense_hat import SenseHat
 
 class Controller:
