@@ -1,5 +1,3 @@
-# Logger.py
-
 class Logger:
     def __init__(self, sense):
         self.sense = sense

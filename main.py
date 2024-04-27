@@ -1,6 +1,6 @@
 # Main.py
 
-from src.Controller import Controller
+from src.controller import Controller
 
 def main():
     controller = Controller()
