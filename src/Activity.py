@@ -1,13 +1,17 @@
 from sense_hat import SenseHat
 from scipy.signal import find_peaks
+from sqlite_db_client import SQLiteDBClient
+from pathlib import Path
+
 import numpy as np
 import time
 import csv
-from pathlib import Path
 
 class Activity:
     def __init__(self, sense):
         self.sense = sense
+        self.db_client = SQLiteDBClient('Activity.db')
+        self.db_client.connect()
 
     def record(self):
 
@@ -58,7 +62,11 @@ class Activity:
             steps, _ = find_peaks(magnitudes, height=(std_dev + mean))
             print(len(steps))
             
-            # TODO: Update mongodb or some other database system
+            # Update SQLite database with the recorded activity
+            end_date = time.strftime('%Y-%m-%d')
+            end_time = time.strftime('%H:%M:%S')
+            steps_count = len(steps)
+            self.db_client.update_activity_entry(timestamp, end_date, end_time, steps_count)
 
             return True
 
