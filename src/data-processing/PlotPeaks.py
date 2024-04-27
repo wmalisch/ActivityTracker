@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.signal import find_peaks
 import csv
 
-# Initialize list to store magnitudes
 magnitudes = []
 
 with open('outputs/vectorized_data.csv', 'r') as file:
@@ -17,12 +17,13 @@ with open('outputs/vectorized_data.csv', 'r') as file:
 # Convert magnitudes list to numpy array
 magnitudes = np.array(magnitudes)
 
-# Plot magnitudes
-plt.figure(figsize=(10, 6))  # Adjust the figure size as needed
-plt.plot(magnitudes, label='Magnitude')
+peaks, _ = find_peaks(magnitudes)
+
+plt.plot(magnitudes)
+plt.plot(peaks, magnitudes[peaks], "x", color='red')
 plt.xlabel('Index')
-plt.ylabel('Magnitude')
-plt.title('Magnitude from vectorized_data.csv')
-plt.legend()
-plt.grid(True)
+plt.ylabel('Acceleration Magnitude')
+plt.title('Acceleration Magnitude with Peaks')
 plt.show()
+
+print("Indices of the peaks:", peaks)
