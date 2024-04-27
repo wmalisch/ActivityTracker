@@ -20,3 +20,7 @@ class SQLiteDBClient:
         self.cursor.execute("UPDATE activitybasic SET enddate = ?, endtime = ?, steps = ? WHERE id = ?",
                             (enddate, endtime, steps, id))
         self.conn.commit()
+
+    def get_latest_activity(self):
+        self.cursor.execute("SELECT * FROM activitybasic ORDER BY id DESC LIMIT 1")
+        return self.cursor.fetchone()
