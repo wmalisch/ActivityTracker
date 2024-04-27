@@ -40,6 +40,13 @@ Implementation of an activity tracking software using RaspberryPi's and a 9-degr
   sqlite> .quit
   ```
 
+* Install other dependencies:
+
+  * Install Scipy: 
+  ```
+  sudo apt-get install python3-scipy
+  ```
+
 ## Run:
 
 * First, Complete [Setup](#setup)
