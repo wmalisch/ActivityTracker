@@ -6,10 +6,10 @@ import csv
 magnitudes = []
 
 # Open and read the CSV file
-with open('outputs/1714090197.csv', 'r') as file:
+with open('outputs/50steps.csv', 'r') as file:
     reader = csv.reader(file)
     
-    for row in reader:    
+    for row in reader:
         # Extract x, y, and z values from each row
         x, y, z = float(row[0]), float(row[1]), float(row[2])
         
@@ -21,7 +21,7 @@ with open('outputs/1714090197.csv', 'r') as file:
 
 magnitudes = np.array(magnitudes)
 
-with open('outputs/vectorized_data.csv', 'w', newline='') as file:
+with open('outputs/50steps-vectorized.csv', 'w', newline='') as file:
     writer = csv.writer(file)
     for mag in magnitudes:
         writer.writerow([mag])
