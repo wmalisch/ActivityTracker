@@ -5,7 +5,7 @@ import csv
 
 magnitudes = []
 
-with open('outputs/vectorized_data.csv', 'r') as file:
+with open('outputs/50steps-vectorized.csv', 'r') as file:
     reader = csv.reader(file)
     next(reader)  # Skip the header row
     for row in reader:
@@ -17,7 +17,12 @@ with open('outputs/vectorized_data.csv', 'r') as file:
 # Convert magnitudes list to numpy array
 magnitudes = np.array(magnitudes)
 
-peaks, _ = find_peaks(magnitudes)
+std_dev = np.std(magnitudes) * 0.5
+mean = np.mean(magnitudes)
+print(mean)
+print(std_dev)
+
+peaks, _ = find_peaks(magnitudes, height=(std_dev + mean))
 
 plt.plot(magnitudes)
 plt.plot(peaks, magnitudes[peaks], "x", color='red')
@@ -26,4 +31,4 @@ plt.ylabel('Acceleration Magnitude')
 plt.title('Acceleration Magnitude with Peaks')
 plt.show()
 
-print("Indices of the peaks:", peaks)
+print("Indices of the peaks:", len(peaks))

@@ -33,6 +33,10 @@ class Activity:
                         if(event.action == "pressed" and event.direction == "middle"):
                             self.running = not self.running
 
+                    # Sleep statement helps quiet the noise in the data. 
+                    # Without this, we over estimate the number of steps
+                    time.sleep(0.1)
+
             return True
 
         except Exception as e:
