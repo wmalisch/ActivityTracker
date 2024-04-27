@@ -1,6 +1,4 @@
 from sense_hat import SenseHat
-from scipy.signal import find_peaks
-import numpy as np
 import time
 import csv
 from pathlib import Path
@@ -10,10 +8,8 @@ class Activity:
         self.sense = sense
 
     def record(self):
-
         try:
             print("Activity started.")
-            magnitudes = []
 
             # Write accelerometer data to disk as a default in case we need to back it up later
             timestamp = int(time.time())
@@ -21,23 +17,15 @@ class Activity:
             with open(output_file_path, 'a') as file:
                 
                 writer = csv.writer(file)
-
+                
                 while self.running:
                     # Read data from the IMU
                     imu_data = self.sense.get_accelerometer_raw()
                     acceleration = imu_data['x'], imu_data['y'], imu_data['z']
 
-                    # Append accelerometer data raw to the current recording's file on disk. Vectorize.py can be used to conver this data later if needed.
                     rounded_acceleration = [round(value, 2) for value in acceleration]
                     writer.writerow(rounded_acceleration)
-                    
-                    # Calculate magnitude using the provided algorithm
-                    mag = np.sqrt(float(acceleration[0])**2 + float(acceleration[1])**2 + float(acceleration[2])**2)
-                    
-                    # Append magnitude to the list
-                    magnitudes.append(mag)
 
-                    # Every iteration, check if the user has ended recording by toggling the joy stick
                     joy_stick = self.sense.stick.get_events()
                     for event in joy_stick:
                         if(event.action == "pressed" and event.direction == "middle"):
@@ -47,22 +35,8 @@ class Activity:
                     # Without this, we over estimate the number of steps
                     time.sleep(0.1)
 
-            # Convert to a numpy array, so we can leverage the find_peaks function from scipy
-            magnitudes = np.array(magnitudes)
-
-            # Calc std_dev and mean. We use these to derive a minimum threshold for considering accelerometer fluctuations as a step
-            std_dev = np.std(magnitudes) * 0.5
-            mean = np.mean(magnitudes)
-
-            # Calculate the peaks - these are steps!
-            steps, _ = find_peaks(magnitudes, height=(std_dev + mean))
-            print(len(steps))
-            
-            # TODO: Update mongodb or some other database system
-
             return True
 
         except Exception as e:
             print(e, "An error was encountered when recording your activity. Please try again.")
             return False
-
