@@ -12,7 +12,6 @@ class Activity:
         self.db_client.connect()
 
     def record(self):
-
         try:
             print("Activity started.")
             self.running = True
@@ -76,3 +75,10 @@ class Activity:
             print(e, "An error was encountered when recording your activity. Please try again.")
             return False
 
+    def get_latest_activity(self):
+        # TODO
+        return
+
+    def list_activities(self):
+        # TODO
+        return 
