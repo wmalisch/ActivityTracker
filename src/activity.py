@@ -1,5 +1,5 @@
 from scipy.signal import find_peaks
-from sqlite_db_client import SQLiteDBClient
+from src.sqlite_db_client import SQLiteDBClient
 from pathlib import Path
 import numpy as np
 import time
@@ -15,7 +15,11 @@ class Activity:
 
         try:
             print("Activity started.")
+            self.running = True
             magnitudes = []
+
+            start_date = time.strftime('%Y-%m-%d')
+            start_time = time.strftime('%H:%M:%S')
 
             # Write accelerometer data to disk as a default in case we need to back it up later
             timestamp = int(time.time())
@@ -64,7 +68,7 @@ class Activity:
             end_date = time.strftime('%Y-%m-%d')
             end_time = time.strftime('%H:%M:%S')
             steps_count = len(steps)
-            self.db_client.update_activity_entry(timestamp, end_date, end_time, steps_count)
+            self.db_client.insert_activity_entry(start_date, start_time, end_date, end_time, steps_count)
 
             return True
 
