@@ -1,24 +1,33 @@
 from scipy.signal import find_peaks
 from src.sqlite_db_client import SQLiteDBClient
 from pathlib import Path
+from datetime import datetime
 import numpy as np
 import time
 import csv
+import pytz
 
 class Activity:
     def __init__(self, sense):
         self.sense = sense
         self.db_client = SQLiteDBClient('Activity.db')
         self.db_client.connect()
+        self.est_timezone = pytz.timezone('US/Eastern')
 
     def record(self):
         try:
-            print("Activity started.")
             self.running = True
             magnitudes = []
 
-            start_date = time.strftime('%Y-%m-%d')
-            start_time = time.strftime('%H:%M:%S')
+            # Get the current date and time (in UTC)
+            utc_now = datetime.now(pytz.utc)
+
+            # Localize the current time to Eastern Standard Time (EST)
+            est_now = utc_now.astimezone(self.est_timezone)
+
+            # Extract the date and time components
+            start_date = est_now.strftime('%Y-%m-%d')
+            start_time = est_now.strftime('%H:%M:%S')
 
             # Write accelerometer data to disk as a default in case we need to back it up later
             timestamp = int(time.time())
@@ -61,11 +70,10 @@ class Activity:
 
             # Calculate the peaks - these are steps!
             steps, _ = find_peaks(magnitudes, height=(std_dev + mean))
-            print(len(steps))
             
             # Update SQLite database with the recorded activity
-            end_date = time.strftime('%Y-%m-%d')
-            end_time = time.strftime('%H:%M:%S')
+            end_date = est_now.strftime('%Y-%m-%d')
+            end_time = est_now.strftime('%H:%M:%S')
             steps_count = len(steps)
             self.db_client.insert_activity_entry(start_date, start_time, end_date, end_time, steps_count)
 
@@ -76,8 +84,7 @@ class Activity:
             return False
 
     def get_latest_activity(self):
-        # TODO
-        return
+        return self.db_client.get_latest_activity()
 
     def list_activities(self):
         # TODO

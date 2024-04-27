@@ -1,15 +1,18 @@
+import pytz
+from datetime import datetime
 
-import time
-import csv
-from pathlib import Path
+# Get the current date and time (in UTC)
+utc_now = datetime.now(pytz.utc)
 
+# Create a timezone object for Eastern Standard Time (EST)
+est_timezone = pytz.timezone('US/Eastern')
 
-timestamp = int(time.time())
+# Localize the current time to Eastern Standard Time (EST)
+est_now = utc_now.astimezone(est_timezone)
 
-# Define output file path
-output_file_path = Path(f"outputs/{timestamp}.csv").resolve()
+# Extract the date and time components
+start_date = est_now.strftime('%Y-%m-%d')
+start_time = est_now.strftime('%H:%M:%S')
 
-with open(output_file_path, 'a') as file:
-    for i in range(2):
-        file.write("hello" + '\n')
-        
+print("Current date in EST:", start_date)
+print("Current time in EST:", start_time)
