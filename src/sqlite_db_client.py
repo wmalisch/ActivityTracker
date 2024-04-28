@@ -1,5 +1,6 @@
-import datetime
 import sqlite3
+
+from datetime import datetime
 
 class SQLiteDBClient:
     def __init__(self, db):

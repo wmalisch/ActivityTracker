@@ -1,11 +1,12 @@
-from scipy.signal import find_peaks
-from src.sqlite_db_client import SQLiteDBClient
-from pathlib import Path
-from datetime import datetime
 import numpy as np
 import time
 import csv
 import pytz
+
+from scipy.signal import find_peaks
+from src.sqlite_db_client import SQLiteDBClient
+from pathlib import Path
+from datetime import datetime
 
 class Activity:
     def __init__(self, sense):
