@@ -20,15 +20,13 @@ class Activity:
             self.running = True
             magnitudes = []
 
-            # Get the current date and time (in UTC)
-            utc_now = datetime.now(pytz.utc)
-
-            # Localize the current time to Eastern Standard Time (EST)
-            est_now = utc_now.astimezone(self.est_timezone)
+            # Get start time
+            utc_start = datetime.now(pytz.utc)
+            est_start = utc_start.astimezone(self.est_timezone)
 
             # Extract the date and time components
-            start_date = est_now.strftime('%Y-%m-%d')
-            start_time = est_now.strftime('%H:%M:%S')
+            start_date = est_start.strftime('%Y-%m-%d')
+            start_time = est_start.strftime('%H:%M:%S')
 
             # Write accelerometer data to disk as a default in case we need to back it up later
             timestamp = int(time.time())
@@ -72,9 +70,12 @@ class Activity:
             # Calculate the peaks - these are steps!
             steps, _ = find_peaks(magnitudes, height=(std_dev + mean))
             
-            # Update SQLite database with the recorded activity
-            end_date = est_now.strftime('%Y-%m-%d')
-            end_time = est_now.strftime('%H:%M:%S')
+            # Update SQLite database with the recorded activity\
+            utc_end = datetime.now(pytz.utc)
+            est_end = utc_end.astimezone(self.est_timezone)
+            end_date = est_end.strftime('%Y-%m-%d')
+            end_time = est_end.strftime('%H:%M:%S')
+            
             steps_count = len(steps)
             self.db_client.insert_activity_entry(start_date, start_time, end_date, end_time, steps_count)
 

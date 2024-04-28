@@ -19,9 +19,12 @@ class SQLiteDBClient:
         end_datetime = datetime.strptime(endtime, '%H:%M:%S')
 
         time_difference = end_datetime - start_datetime
-        duration = time_difference.strftime('%M:%S')
 
-        self.cursor.execute("INSERT INTO activity (startdate, starttime, enddate, endtime, steps) VALUES (?, ?, ?, ?, ?, ?)",
+        minutes = (time_difference.seconds // 60) % 60
+        seconds = time_difference.seconds % 60
+        duration = "{:02d}:{:02d}".format(minutes, seconds)
+
+        self.cursor.execute("INSERT INTO activity (startdate, starttime, enddate, endtime, steps, duration) VALUES (?, ?, ?, ?, ?, ?)",
                             (startdate, starttime, enddate, endtime, steps, duration))
         self.conn.commit()
 
