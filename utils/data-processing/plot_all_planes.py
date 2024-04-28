@@ -7,7 +7,7 @@ column2 = []
 column3 = []
 
 # Open and read the CSV file
-with open('outputs/1714090197.csv', 'r') as file:
+with open('outputs/30steps.csv', 'r') as file:
     reader = csv.reader(file)
     for row in reader:
         # Append data from each column to respective lists

@@ -5,7 +5,7 @@ import csv
 # Initialize list to store magnitudes
 magnitudes = []
 
-with open('outputs/vectorized_data.csv', 'r') as file:
+with open('outputs/30steps-vectorized.csv', 'r') as file:
     reader = csv.reader(file)
     next(reader)  # Skip the header row
     for row in reader:
