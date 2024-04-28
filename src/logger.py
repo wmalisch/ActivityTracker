@@ -16,3 +16,7 @@ class Logger:
         self.sense.show_message(f"Steps: {steps}")
         self.sense.show_message(f"Time: {time}")
         print(activity)
+
+    def print_individual_stat_in_activity_log(self, stat):
+        self.sense.show_message(stat)
+        print(stat)
