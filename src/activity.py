@@ -46,8 +46,6 @@ class Activity:
                     
                     # Calculate magnitude using the provided algorithm
                     mag = np.sqrt(float(acceleration[0])**2 + float(acceleration[1])**2 + float(acceleration[2])**2)
-                    
-                    # Append magnitude to the list
                     magnitudes.append(mag)
 
                     # Every iteration, check if the user has ended recording by toggling the joy stick
