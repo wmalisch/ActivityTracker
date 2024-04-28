@@ -87,7 +87,3 @@ class Activity:
 
     def get_latest_activity(self):
         return self.db_client.get_latest_activity()
-
-    def list_activities(self):
-        # TODO
-        return 

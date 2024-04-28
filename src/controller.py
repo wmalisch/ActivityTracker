@@ -12,6 +12,7 @@ class Controller:
         self.logger = Logger(self.sense)
         self.activity = Activity(self.sense)
         self.db_client = SQLiteDBClient('Activity.db')
+        self.db_client.connect()
 
     def run(self):
         try:
@@ -28,6 +29,10 @@ class Controller:
                                 self.logger.print_stats(stats)
                             else:
                                 self.logger.print_error()
+                        
+                        elif event.direction == "up":
+                            activity_log = self.db_client.get_all()
+                            self.view_activities(activity_log)
 
                 # Use a short sleep statement to help save battery. Calls to the SenseHat are battery intensive, this slightly reduces the number of calls
                 time.sleep(0.1)
@@ -35,3 +40,6 @@ class Controller:
         except KeyboardInterrupt:
             print("Exiting...")
             self.sense.clear()
+
+    def view_activities(self, activity_log):
+        print(activity_log)

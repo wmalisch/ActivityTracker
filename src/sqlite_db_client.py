@@ -29,5 +29,9 @@ class SQLiteDBClient:
         self.conn.commit()
 
     def get_latest_activity(self):
-        self.cursor.execute("SELECT * FROM activity ORDER BY id DESC LIMIT 1")
+        self.cursor.execute("SELECT steps, duration FROM activity ORDER BY id DESC LIMIT 1")
         return self.cursor.fetchone()
+    
+    def get_all(self):
+        self.cursor.execute("SELECT * FROM activity ORDER BY id DESC")
+        return self.cursor.fetchall()
