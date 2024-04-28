@@ -11,6 +11,8 @@ class Logger:
         print("An error occured while recording your activity")
 
     def print_stats(self, activity):
-        stats_message = str(activity)
-        self.sense.show_message(stats_message)
+        steps = str(activity[0])
+        time = str(activity[1])
+        self.sense.show_message(f"Steps: {steps}")
+        self.sense.show_message(f"Time: {time}")
         print(activity)
