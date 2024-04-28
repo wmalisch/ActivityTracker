@@ -31,7 +31,7 @@ Implementation of an activity tracking software using RaspberryPi's and a 9-degr
   * This should take you inside the DB, via `sqlite3` shell. Create the tables with:
   ```
   sqlite> BEGIN;
-  sqlite> CREATE TABLE activitybasic(id INTEGER PRIMARY KEY AUTOINCREMENT, startdate DATE, starttime TIME, enddate DATE, endtime TIME, steps INT);
+  sqlite> CREATE TABLE activitybasic(id INTEGER PRIMARY KEY AUTOINCREMENT, startdate DATE, starttime TIME, enddate DATE, endtime TIME, steps INT, duration TEXT);
   sqlite> COMMIT;
   ```
 

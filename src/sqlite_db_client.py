@@ -1,3 +1,4 @@
+import datetime
 import sqlite3
 
 class SQLiteDBClient:
@@ -12,13 +13,15 @@ class SQLiteDBClient:
         self.conn.close()
 
     def insert_activity_entry(self, startdate, starttime, enddate, endtime, steps):
-        self.cursor.execute("INSERT INTO activitybasic (startdate, starttime, enddate, endtime, steps) VALUES (?, ?, ?, ?, ?)",
-                            (startdate, starttime, enddate, endtime, steps))
-        self.conn.commit()
 
-    def update_activity_entry(self, id, enddate, endtime, steps):
-        self.cursor.execute("UPDATE activitybasic SET enddate = ?, endtime = ?, steps = ? WHERE id = ?",
-                            (enddate, endtime, steps, id))
+        start_datetime = datetime.strptime(starttime, '%H:%M:%S')
+        end_datetime = datetime.strptime(endtime, '%H:%M:%S')
+
+        time_difference = end_datetime - start_datetime
+        duration = time_difference.strftime('%M:%S')
+
+        self.cursor.execute("INSERT INTO activitybasic (startdate, starttime, enddate, endtime, steps) VALUES (?, ?, ?, ?, ?, ?)",
+                            (startdate, starttime, enddate, endtime, steps, duration))
         self.conn.commit()
 
     def get_latest_activity(self):
