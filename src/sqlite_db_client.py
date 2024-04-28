@@ -33,5 +33,5 @@ class SQLiteDBClient:
         return self.cursor.fetchone()
     
     def get_all(self):
-        self.cursor.execute("SELECT * FROM activity ORDER BY id DESC")
+        self.cursor.execute("SELECT id, startdate, starttime, steps, duration FROM activity ORDER BY id DESC")
         return self.cursor.fetchall()
