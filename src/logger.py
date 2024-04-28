@@ -20,3 +20,11 @@ class Logger:
     def print_individual_stat_in_activity_log(self, stat):
         self.sense.show_message(stat)
         print(stat)
+
+    def view_mode_on(self):
+        self.sense.show_message("View")
+        print("View Mode: On")
+
+    def view_mode_off(self):
+        self.sense.show_message("Record")
+        print("View Mode: Off")

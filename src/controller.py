@@ -17,9 +17,13 @@ class Controller:
 
     def run(self):
         try:
+
+            # Loop for ever until a user starts recording activities
             while True:
                 for event in self.sense.stick.get_events():
                     if event.action == "pressed":
+
+                        # Push inwards to start recording
                         if event.direction == "middle":
                             self.logger.print_start()
 
@@ -31,6 +35,7 @@ class Controller:
                             else:
                                 self.logger.print_error()
                         
+                        # Toggle up to enter view mode
                         elif event.direction == "up":
                             activity_log = self.db_client.get_all()
                             self.view_activities(activity_log)
@@ -42,7 +47,10 @@ class Controller:
             print("Exiting...")
             self.sense.clear()
 
+    # A function to provide users with a view mode. 
+    # Using the joy stick, users can toggle through there history of recorded activities
     def view_activities(self, activity_log):
+        self.logger.view_mode_on()
         view = True
         print = True
         alog = np.array(activity_log)
@@ -68,12 +76,13 @@ class Controller:
 
                     # Press joy stick in the middle to exit view mode
                     elif event.direction == "middle":
+                        self.logger.view_mode_off()
                         view = False
 
             # Use a short sleep statement to help save battery. Calls to the SenseHat are battery intensive, this slightly reduces the number of calls
             time.sleep(0.2)
                
-
+    # A helper function for logging a description and value for the current stat to the LED screen.
     def print_current_stat(self, row, column, activity_log):
         if column == 0:
             message = f"Id: {activity_log[row, column]}"
