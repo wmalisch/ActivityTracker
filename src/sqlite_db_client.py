@@ -20,10 +20,10 @@ class SQLiteDBClient:
         time_difference = end_datetime - start_datetime
         duration = time_difference.strftime('%M:%S')
 
-        self.cursor.execute("INSERT INTO activitybasic (startdate, starttime, enddate, endtime, steps) VALUES (?, ?, ?, ?, ?, ?)",
+        self.cursor.execute("INSERT INTO activity (startdate, starttime, enddate, endtime, steps) VALUES (?, ?, ?, ?, ?, ?)",
                             (startdate, starttime, enddate, endtime, steps, duration))
         self.conn.commit()
 
     def get_latest_activity(self):
-        self.cursor.execute("SELECT * FROM activitybasic ORDER BY id DESC LIMIT 1")
+        self.cursor.execute("SELECT * FROM activity ORDER BY id DESC LIMIT 1")
         return self.cursor.fetchone()
