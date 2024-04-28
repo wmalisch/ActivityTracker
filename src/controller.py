@@ -1,5 +1,6 @@
-from sense_hat import SenseHat
 import time
+
+from sense_hat import SenseHat
 
 from src.activity import Activity
 from src.logger import Logger
